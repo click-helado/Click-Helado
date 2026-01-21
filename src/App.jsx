@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 function App() {
   const [sabores, setSabores] = React.useState([
     { id: 1, nombre: 'Chocolate', descripcion: 'Intenso chocolate belga', precio: '$800' },
