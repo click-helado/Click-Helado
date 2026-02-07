@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Click-Helado - Tu heladeria online</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        overflow-x: hidden;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #2d2f32 100%);
+        color: #1c1a1a;
+        line-height: 1.6;
+        text-align: center;
+        background-color:#1c1a1a;
+      }
+      header {
+        background-color: #fff;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        height: 100vh;
+        width: 100vw;
+        background-image: url(./src/logo.jpeg);
+        background-size:auto;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: black;
+      }
+      .logo {
+        max-width: 200px;
+        height: auto;
+      }
+      .hero {
+        background-color: black;
+        background-size:contain;
+        background-position: center;
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        color: white;
+        width: 100vw;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.1),
+          rgba(255, 255, 255, 0.05)
+        );
+        animation: shimmer 3s ease-in-out infinite;
+      }
+      @keyframes shimmer {
+        0%,
+        100% {
+          opacity: 0.1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+      .hero h1 {
+        font-size: 3.5em;
+        margin: 0;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        z-index: 1;
+        position: relative;
+      }
+      .hero p {
+        font-size: 1.8em;
+        margin: 10px 0 10px 0;
+        z-index: 1;
+        position: relative;
+      }
+      .cta-button {
+        display: inline-block;
+        background: linear-gradient(45deg, #25d366, #128c7e);
+        color: white;
+        padding: 18px 35px;
+        text-decoration: none;
+        border-radius: 50px;
+        font-size: 1.3em;
+        font-weight: bold;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        z-index: 1;
+        position: relative;
+      }
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(191, 233, 206, 0.4);
+      }
+      .section {
+        padding: 10px 10px;
+        margin: 0 auto;
+        font-size: 1.8em;
+      }
+      .prices,
+      .flavors,
+      .offers {
+        background-color: #202021;
+        margin: 5px 0;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .prices h2,
+      .flavors h2,
+      .offers h2 {
+        text-align: center;
+        color: #f6fc4f;
+      }
+      .price-list {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .price-item {
+        background: linear-gradient(135deg, #ffffff, #f8f9fa);
+        border-radius: 15px;
+        padding: 30px 20px;
+        text-align: center;
+        margin: 20px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+      }
+      .price-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(42, 190, 104, 0.1),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+      .price-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(191, 233, 206, 064);;
+        border-color: #27ae60;
+      }
+      .price-item:hover::before {
+        left: 100%;
+      }
+      .price-item h3 {
+        font-size: 2.5em;
+        color: #27ae60;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+      .price-item p {
+        font-size: 1.5em;
+        color: #333;
+        font-weight: bold;
+        margin: 0;
+      }
+      .flavor-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+      .flavor-category {
+        background: linear-gradient(135deg, #302c2c, #2e2f31);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        margin-top: 10px;
+      }
+      .flavor-category:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        border-color: #3498db;
+      }
+      .flavor-category h3 {
+        color: #3498db;
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .flavor-item {
+        background: linear-gradient(135deg, #ecf0f1, #b7e3f6);
+        padding: 15px 10px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        color: #2c3e50;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      .flavor-item:hover {
+        transform: scale(1.05);
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+      }
+      footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      /* WhatsApp Floating Button */
+      .whatsapp-float {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background-color: #25d366;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        opacity: 0;
+        visibility: hidden;
+        z-index: 1000;
+        text-decoration: none;
+      }
+      .whatsapp-float.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .whatsapp-float:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+      }
+      .whatsapp-float img {
+        width: 30px;
+        height: 30px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        body {
+          padding: 0 10px;
+        }
+        .hero {
+          height: 350px;
+          padding: 20px 10px;
+          margin: 0 0;
+        }
+        .hero h1 {
+          font-size: 2.2em;
+        }
+        .hero p {
+          font-size: 1.3em;
+        }
+        .cta-button {
+          padding: 14px 22px;
+          font-size: 1em;
+        }
+        .section {
+          padding: 30px 10px;
+          margin: 0;
+        }
+        .prices,
+        .flavors,
+        .offers {
+          padding: 20px 10px;
+          margin: 15px 0;
+        }
+        .price-list {
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+        }
+        .price-item {
+          margin: 0;
+          width: 100%;
+          max-width: none;
+          padding: 20px 10px;
+        }
+        .price-item img {
+          width: 100% !important;
+          height: auto !important;
+          max-width: 250px;
+        }
+        .flavor-list {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .flavor-category {
+          padding: 15px 10px;
+        }
+        .flavor-category h3 {
+          font-size: 1.4em;
+        }
+        .flavor-item {
+          padding: 12px 8px;
+          font-size: 0.9em;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 0 0px;
+          box-sizing: border-box;
+          margin: 0;
+        }
+        header {
+          padding: 0 0;
+          height: 50vh;
+          width: auto;
+          background-size: cover;
+          margin-bottom: 5px;
+        }
+        .logo {
+          max-width: 150px;
+        }
+        .hero {
+          height: 300px;
+          padding: 15px 10px
+          margin: 0;
+          width: 100vw;
+        }
+        .hero h1 {
+          font-size: 1.8em;
+          letter-spacing: 1px;
+        }
+        .hero p {
+          font-size: 1.1em;
+          margin: 8px 0 10px 0;
+        }
+        .cta-button {
+          padding: 12px 18px;
+          font-size: 0.9em;
+        }
+        .section {
+          padding: 25px 10px;
+        }
+        .prices,
+        .flavors,
+        .offers {
+          padding: 15px 10px;
+          margin: 5px 0;
+          border-radius: 8px;
+        }
+        .prices h2,
+        .flavors h2,
+        .offers h2 {
+          font-size: 1.5em;
+          margin-bottom: 15px;
+        }
+        .price-list {
+          gap: 10px;
+        }
+        .price-item {
+          padding: 15px 10px;
+          border-radius: 10px;
+        }
+        .price-item img {
+          width: 100% !important;
+          height: auto !important;
+          max-width: 200px;
+        }
+        .price-item h3 {
+          font-size: 1.6em;
+          margin-bottom: 8px;
+        }
+        .price-item p {
+          font-size: 1.2em;
+        }
+        .flavor-list {
+          gap: 15px;
+        }
+        .flavor-category {
+          padding: 12px 10px;
+          border-radius: 10px;
+        }
+        .flavor-category h3 {
+          font-size: 1.2em;
+          margin-bottom: 15px;
+        }
+        .flavor-item {
+          padding: 10px 6px;
+          font-size: 0.85em;
+          margin-bottom: 8px;
+          border-radius: 8px;
+        }
+        footer {
+          padding: 15px 10px;
+          font-size: 0.9em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header></header>
+
+    <section class="hero">
+      <div>
+        <h1>¡Disfruta de los sabores mas deliciosos!</h1>
+        <p>Helados cremosos y refrescantes para todos los gustos</p>
+        <a href="https://wa.me/5492914469704" class="cta-button"
+          >¡Pedi ahora por WhatsApp!</a
+        >
+      </div>
+    </section>
+
+    <section class="section prices" style="background-color: #333">
+      <h2 style="text-transform: uppercase; margin: 5px; padding-bottom: 10px">
+        Precios
+      </h2>
+      <div class="price-list">
+        <div class="price-item" style="width: max-content">
+          <img
+            src="./src/potes.png"
+            style="width: 250px; height: 300px; border-radius: 20px"
+            alt=""
+          />
+          <h3 style="margin-top: 5px">1kg</h3>
+          <p style="font-size: 15px">Hasta 4 sabores</p>
+          <p style="color: red">$8.500</p>
+        </div>
+        <div class="price-item" style="width: max-content">
+          <img
+            src="./src/pote2.png"
+            style="width: 250px; height: 300px; border-radius: 20px"
+            alt=""
+          />
+          <h3 style="margin-top: 5px">1/2kg</h3>
+          <p style="font-size: 15px">Hasta 3 sabores</p>
+          <p style="color: red">$5.500</p>
+        </div>
+        <div class="price-item" style="width: max-content">
+          <img
+            src="./src/pote3.png"
+            style="width: 250px; height: 300px; border-radius: 20px"
+            alt=""
+          />
+          <h3 style="margin-top: 5px">1/4kg</h3>
+          <p style="font-size: 15px">Hasta 2 sabores</p>
+          <p style="color: red">$3.500</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section offers">
+      <h2
+        style="
+          text-transform: uppercase;
+          margin: 5px;
+          padding-bottom: 10px;
+          line-height: 40px;
+        "
+      >
+        Ofertas Especiales
+      </h2>
+      <div class="price-list" style="padding-bottom: 10px">
+        <div class="price-item" style="width: max-content">
+          <img
+            src="./src/promoCuartos.png"
+            style="width: 250px; height: 300px; border-radius: 20px"
+            alt=""
+          />
+        </div>
+        <div class="price-item" style="width: max-content">
+          <img
+            src="./src/promoKiloyMedio.png"
+            style="width: 250px; height: 300px; border-radius: 20px"
+            alt=""
+          />
+        </div>
+        <div class="price-item" style="width: max-content">
+          <img
+            src="./src/promoKiloAgua+kiloCrema.png"
+            style="width: 250px; height: 300px; border-radius: 20px"
+            alt=""
+          />
+        </div>
+        <div class="price-item" style="width: max-content">
+          <img
+            src="./src/palitosAgua.png"
+            style="width: 250px; height: 300px; border-radius: 20px"
+            alt=""
+          />
+        </div>
+        <div class="price-item" style="width: max-content">
+          <img
+            src="./src/promoBombon.png"
+            style="width: 250px; height: 300px; border-radius: 20px"
+            alt=""
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="section flavors">
+      <h2 style="text-transform: uppercase; padding-bottom: 10px">Sabores</h2>
+      <div class="flavor-list">
+        <div class="flavor-category">
+          <h3 style="text-transform: uppercase; font-style: italic">
+            Sabores de Crema
+          </h3>
+          <div class="flavor-item">Crema Americana</div>
+          <div class="flavor-item">Banana Split</div>
+          <div class="flavor-item">Chocolate</div>
+          <div class="flavor-item">Dulce de Leche</div>
+          <div class="flavor-item">Dce. de Leche Granizado</div>
+          <div class="flavor-item">Capuccino Granizado</div>
+          <div class="flavor-item">Durazno a la crema</div>
+          <div class="flavor-item">Granizado</div>
+          <div class="flavor-item">Crema Cookie</div>
+          <div class="flavor-item">Nutribana (arcoiris)</div>
+          <div class="flavor-item">Chocolate</div>
+          <div class="flavor-item">Crema Rusa</div>
+          <div class="flavor-item">Tiramisú</div>
+          <div class="flavor-item">Menta granizada</div>
+          <div class="flavor-item">Vainilla</div>
+          <div class="flavor-item">Flan con dce. de Leche</div>
+        </div>
+        <div class="flavor-category">
+          <h3
+            style="
+              text-transform: uppercase;
+              font-style: italic;
+              margin-top: 10px;
+            "
+          >
+            Sabores de Agua
+          </h3>
+          <div class="flavor-item">Limón</div>
+          <div class="flavor-item">Naranja</div>
+          <div class="flavor-item">Maracuyá</div>
+          <div class="flavor-item">Frutos Rojos</div>
+          <div class="flavor-item">Frutilla</div>
+        </div>
+      </div>
+    </section>
+
+    <footer
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start !important;
+      "
+    >
+      <div style="padding-top: 10px; display: inline-block !important">
+        <img
+          src="./src/logo.jpeg"
+          style="
+            display: block;
+            border-radius: 100%;
+            height: 45px;
+            margin-inline-end: 15px !important;
+          "
+          alt=""
+        />
+      </div>
+      <div style="display: block !important">
+        <p>&copy; 2026 Click-Helado. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a
+      href="https://wa.me/5492914469704"
+      class="whatsapp-float"
+      target="_blank"
+    >
+      <img
+        src="https://img.icons8.com/color/48/000000/whatsapp.png"
+        alt="WhatsApp"
+      />
+    </a>
+
+    <script>
+      // WhatsApp floating button scroll behavior
+      window.addEventListener("scroll", function () {
+        const whatsappBtn = document.querySelector(".whatsapp-float");
+        if (window.scrollY > 200) {
+          whatsappBtn.classList.add("show");
+        } else {
+          whatsappBtn.classList.remove("show");
+        }
+      });
+    </script>
+  </body>
+</html>
